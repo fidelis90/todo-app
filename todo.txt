@@ -1,0 +1,4 @@
+add a new player
+fixing 
+hello i am gretting
+default arguments added to function
