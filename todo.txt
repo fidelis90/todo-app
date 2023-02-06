@@ -1,4 +1,5 @@
-add a new player
-fixing 
-hello i am gretting
-default arguments added to function
+edited
+test2
+add new item
+add again
+i love python
