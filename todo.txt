@@ -1,5 +1,3 @@
 cengage containers
-icinga2 presentation
 pg gitlab eks script
 greendot aws config rule for s3 buckets
-cengage training

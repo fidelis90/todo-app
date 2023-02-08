@@ -1,7 +1,11 @@
 import functions
 import PySimpleGUI as sg
+import time
 
-label = sg.Text("Type in a todo")
+sg.theme('DarkPurple')
+
+clock = sg.Text('', key='clock')
+label = sg.Text("Type in a todo", justification='center')
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button("Add")
 list_todos = sg.Listbox(values=functions.get_todo_list(),
@@ -12,16 +16,14 @@ remove_button = sg.Button("Remove")
 exit_button = sg.Button("Exit")
 
 
-layout = [[label], [input_box, add_button], [
+layout = [[clock], [label], [input_box, add_button], [
     list_todos, edit_button, remove_button], [exit_button]]
 
 window = sg.Window("My to do App", layout, font=("Helvetica", 20))
 
 while True:
-    event, values = window.read()
-    print(event)
-    print(values)
-    print(values["todos"])
+    event, values = window.read(timeout=100)
+    window['clock'].Update(value=time.strftime("%Y-%m-%d %H:%M:%S"))
 
     match event:
         case "Add":
@@ -33,21 +35,29 @@ while True:
             window['todos'].Update(values=todos)
 
         case "Edit":
-            todo_to_edit = values['todos'][0]
-            new_todo = values['todo'] + '\n'
-            todos = functions.get_todo_list()
-            index_of_todo_to_edit = todos.index(todo_to_edit)
-            todos[index_of_todo_to_edit] = new_todo
-            functions.write_todo_to_list(todos)
-            window['todos'].Update(values=todos)
+            try:
+                todo_to_edit = values['todos'][0]
+                new_todo = values['todo'] + '\n'
+                todos = functions.get_todo_list()
+                index_of_todo_to_edit = todos.index(todo_to_edit)
+                todos[index_of_todo_to_edit] = new_todo
+                functions.write_todo_to_list(todos)
+                window['todos'].Update(values=todos)
+            except IndexError:
+                sg.popup("Please select an item to edit",
+                         font=('Helvetica', 20))
 
         case "Remove":
-            todo_to_remove = values["todos"][0]
-            todos = functions.get_todo_list()
-            todos.remove(todo_to_remove)
-            functions.write_todo_to_list(todos)
-            window['todos'].Update(values=todos)
-            window['todo'].Update(value='')
+            try:
+                todo_to_remove = values["todos"][0]
+                todos = functions.get_todo_list()
+                todos.remove(todo_to_remove)
+                functions.write_todo_to_list(todos)
+                window['todos'].Update(values=todos)
+                window['todo'].Update(value='')
+            except IndexError:
+                sg.popup("Please select an item to remove",
+                         font=('Helvetica', 20))
 
         case 'todos':
             window['todo'].Update(value=values['todos'][0])
