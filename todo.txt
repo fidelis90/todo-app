@@ -1,3 +1,1 @@
-cengage containers
-pg gitlab eks script
-greendot aws config rule for s3 buckets
+alert setup in pg
