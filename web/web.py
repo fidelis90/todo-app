@@ -18,9 +18,9 @@ subheader = st.subheader("This is my todo app.")
 app_desc = st.write('This is to increase my productivity daily')
 
 for todo in todos:
-    st.checkbox(todo, key='todo_item')
+    st.checkbox(todo)
 
 user_input = st.text_input(label='Enter todo item', label_visibility="hidden", placeholder="Add an item",
                            key="new_todo", on_change=add_todo_item)
 
-session_state
+# session_state
